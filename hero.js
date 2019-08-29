@@ -45,26 +45,41 @@ const hero = {
         10: 'image/hero/dead/hiro29.png'
     }
 }
-let type = 'idle'
+export let type = 'idle'
+export let ready = false
 export function setType(type1) {
     type=type1
+}
+export function setframe(frame1) {
+    frame=frame1
 }
 let frame = 1
 export function drawImagehero(ctx) {
     frame +=1
+    if (type === 'attack' && frame=== 10){
+        type='idle'
+        frame=1
+    }
     if (hero[type][frame]=== undefined)
         frame = 1
-    if((typeof hero[type][frame])==='string'){
-        const image = new Image(58, 84); // Using optional size for image
-        image.onload = function () {
-            hero[type][frame] = image;
-            ctx.drawImage(image, 0, 0);
-        }
-        // Load an image of intrinsic size 300x227 in CSS pixels
-        image.src = hero[type][frame];
-    } else {
-        ctx.drawImage(hero[type][frame], 0, 0);
-    }
+
+    ctx.drawImage(hero[type][frame], 0, 0);
+
 }
 
+export function preload() {
+    let types = Object.keys(hero)
+    types.forEach(function (type, idx) {
+        let frames = Object.keys(hero[type])
+        frames.forEach(function (frame, idx1) {
+            const image = new Image(58, 84);
+            image.onload = function () {
+                hero[type][frame] = image;
+                if(idx === types.length-1 && idx1 === frames.length-1)
+                    ready = true
 
+            }
+            image.src = hero[type][frame];
+        })
+    })
+}
