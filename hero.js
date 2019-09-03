@@ -30,7 +30,10 @@ const hero = {
         7: 'image/hero/attack/7.png',
         8: 'image/hero/attack/8.png',
         9: 'image/hero/attack/9.png',
-        10: 'image/hero/attack/10.png'
+        10: 'image/hero/attack/10.png',
+        11: 'image/hero/attack/11.png',
+        12: 'image/hero/attack/12.png'
+
     },
      'dead': {
         1: 'image/hero/dead/hiro20.png',
@@ -43,8 +46,46 @@ const hero = {
         8: 'image/hero/dead/hiro27.png',
         9: 'image/hero/dead/hiro28.png',
         10: 'image/hero/dead/hiro29.png'
+    },
+    'movel': {
+        1: 'image/hero/movel/hir10.png',
+        2: 'image/hero/movel/hir11.png',
+        3: 'image/hero/movel/hir12.png',
+        4: 'image/hero/movel/hir13.png',
+        5: 'image/hero/movel/hir14.png',
+        6: 'image/hero/movel/hir15.png',
+        7: 'image/hero/movel/hir16.png'
+    },
+    'idlel': {
+        1: 'image/hero/idlel/hi1.png',
+        2: 'image/hero/idlel/hi2.png',
+        3: 'image/hero/idlel/hi3.png',
+        4: 'image/hero/idlel/hi4.png',
+        5: 'image/hero/idlel/hi5.png',
+        6: 'image/hero/idlel/hi6.png',
+        7: 'image/hero/idlel/hi7.png',
+        8: 'image/hero/idlel/hi8.png',
+        9: 'image/hero/idlel/hi9.png'
+    },
+    'angriff': {
+        1: 'image/hero/angriff/1.png',
+        2: 'image/hero/angriff/2.png',
+        3: 'image/hero/angriff/3.png',
+        4: 'image/hero/angriff/4.png',
+        5: 'image/hero/angriff/5.png',
+        6: 'image/hero/angriff/6.png',
+        7: 'image/hero/angriff/7.png',
+        8: 'image/hero/angriff/8.png',
+        9: 'image/hero/angriff/9.png',
+        10: 'image/hero/angriff/10.png',
+         11: 'image/hero/angriff/11.png',
+         12: 'image/hero/angriff/12.png'
     }
 }
+export let x =0
+export let y = 0
+export let speed = 5
+export let direct = 'right'
 export let type = 'idle'
 export let ready = false
 export function setType(type1) {
@@ -53,18 +94,36 @@ export function setType(type1) {
 export function setframe(frame1) {
     frame=frame1
 }
+export function setdirect(direct1) {
+    direct=direct1
+}
 let frame = 1
 export function drawImagehero(ctx) {
     frame +=1
-    if (type === 'attack' && frame=== 10){
+    if (type === 'attack' && frame=== 12){
         type='idle'
+        frame=1
+    }
+    if (type === 'angriff' && frame=== 12){
+        type='idlel'
         frame=1
     }
     if (hero[type][frame]=== undefined)
         frame = 1
+    move()
+    ctx.drawImage(hero[type][frame], x, y);
 
-    ctx.drawImage(hero[type][frame], 0, 0);
+}
+function move() {
+    if (type === 'movie'|| type=== 'movel'){
+        if (direct === 'right')
+            x += speed
+        else if (direct === 'left')
+            x -= speed
 
+        else if (direct === 'up')
+            y += speed
+    }
 }
 
 export function preload() {
